@@ -4,10 +4,17 @@ body {
 
 .row form {
   height: 100%;
+  width: 85%;
 }
 
 .flow-btn {
-  padding-top: 20px;
-  position: absolute;
-  bottom: 0;
+
+}
+
+.formcol {
+  height: 300px;
+}
+
+.disabled {
+  opacity: 0.5;
 }

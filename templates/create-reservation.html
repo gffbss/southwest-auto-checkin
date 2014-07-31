@@ -13,39 +13,61 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-4">
-            <form id="email_form" action="{% url 'email' %}" method="post">{% csrf_token %}
-                {{ email_form.as_p }}
-                <input type="submit" value=">>" form="email_form" class="flow-btn"/>
+        <div class="col-sm-4 formcol {% if state != 'email' %}disabled{% endif %}">
+            <form id="email_form" action="{% url 'email' %}" method="post" role="form" class="form-horizontal">
+                {% csrf_token %}
+                {% if state != 'email' %}
+                <fieldset disabled>{% endif %}
+                    {% for field in email_form %}
+                    <div class="form-group">
+                        {{ field.label_tag }} {{ field }}
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                    <input type="submit" value="Next >>" class="flow-btn btn-default btn-lg btn"/>
+                    {% if state != 'email' %}
+                </fieldset>
+                {% endif %}
 
             </form>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 formcol {% if state != 'name' %}disabled{% endif %}">
             <form id="name_form"
                   action="{% if passenger %}{% url 'passenger_name' passenger.id %}{% else %}#{% endif %}"
-                  method="post">{% csrf_token %}
-                {{ name_form.as_p }}
-                <input type="submit" value=">>" form="name_form" class="flow-btn"/>
-
+                  method="post" class="form-horizontal">{% csrf_token %}
+                {% if state != 'name' %}
+                <fieldset disabled>{% endif %}
+                    {% for field in name_form %}
+                    <div class="form-group">
+                        {{ field.label_tag }} {{ field }}
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                    <input type="submit" value="Next >>" class="flow-btn btn-default btn-lg btn"/>
+                    {% if state != 'name' %}
+                </fieldset>
+                {% endif %}
             </form>
         </div>
-
-        <div class="col-sm-4">
+        <div class="col-sm-4 formcol {% if state != 'reservation' %}disabled{% endif %}">
             <form id="res_form" action="{% if passenger %}{% url 'reservation' passenger.id %}{% else %}#{% endif %}"
-                  method="post">{% csrf_token %}
-                {% for field in reservation_form %}
-                <div class="fieldWrapper">
-                    {{ field.label_tag }} {{ field }}
-                    {{ field.errors }}
-                </div>
-                {% endfor %}
-                <input type="submit" value=">>" form="res_form" class="flow-btn"/>
-
+                  method="post" class="form-horizontal">{% csrf_token %}
+                {% if state != 'reservation' %}
+                <fieldset disabled>{% endif %}
+                    {% for field in reservation_form %}
+                    <div class="form-group">
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.help_text %} <span class="help-block">{{ field.help_text }}</span>{% endif %}
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                    <input type="submit" value="Complete" class="flow-btn btn-default btn-lg btn"/>
+                    {% if state != 'reservation' %}
+                </fieldset>
+                {% endif %}
             </form>
         </div>
     </div>
-
-
 </div>
 
 {% endblock %}
@@ -54,7 +76,6 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
-
 <script type="text/javascript" src="{% static 'js/create-reservation.js' %}"></script>
 
 {% endblock %}
