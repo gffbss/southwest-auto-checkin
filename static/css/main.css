@@ -20,11 +20,7 @@ body {
     background: #fff;
     padding: 2em;
     /*border-radius: 10px;*/
-    max-width: 600px;
-}
-
-.row form {
-  height: 100%;
+    max-width: 650px;
 }
 
 .flow-btn {
@@ -39,38 +35,10 @@ body {
     border-top: 1px solid #ddd;
 }
 
-.field-group {
-    display: block;
-    width: 100%;
-    position: relative;
-    overflow: auto;
-}
-
-label, input {
-    float: left;
-    line-height: 1.2em;
-}
-
-label {
-    width: 35%;
-    margin-right: 4%;
-    text-align: right;
-    margin-top: 10px;
-}
-
-input[type|=text],
-input[type|=email],
-input[type|=password] {
-    width: 55%;
-    outline: none;
-    border-radius: 3px;
-    border: 1px solid #bbb;
-    padding: 10px;
-}
-
-.field-group + .field-group {
+.form-group {
     margin-top: 20px;
 }
+
 input:not(:last-child) {
     margin-bottom: 20px;
 }
