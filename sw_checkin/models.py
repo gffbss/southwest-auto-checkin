@@ -29,8 +29,13 @@ class Reservation(models.Model):
 
 
 def reservation_post_save(sender, instance, **kwargs):
-    checkin_time = datetime.combine((instance.flight_date - timedelta(days=1)), instance.flight_time)
-    tasks.checkin_job.apply_async(args=[instance], eta=checkin_time)
-
+    checkin_time = datetime.combine(
+        (instance.flight_date - timedelta(days=1)),  # Subtract 24 hours for checkin time
+        instance.flight_time
+    )
+    checkin_time += timedelta(hours=7)  # Add 7 hours for UTC, start a minute early
+    checkin_time -= timedelta(minutes=1)  # Start trying a minute early
+    #tasks.checkin_job.apply_async(args=[instance], eta=checkin_time)
+    tasks.checkin_job(instance)
 
 post_save.connect(reservation_post_save, sender=Reservation, dispatch_uid="reservation_post_save")
