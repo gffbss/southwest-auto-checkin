@@ -23,10 +23,8 @@ body {
     max-width: 650px;
 }
 
-.flow-btn {
-  padding-top: 20px;
-  position: absolute;
-  bottom: 0;
+.about {
+    text-align: center;
 }
 
 .flight-input .row + .row {

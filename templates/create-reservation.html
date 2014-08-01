@@ -19,42 +19,6 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form id="email_form" action="{% url 'email' %}" method="post" class="form-horizontal">
-                {% csrf_token %}
-                {% for field in email_form %}
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" for="{{ field.name }}">{{ field.label }}</label>
-                        <div class="col-sm-8">{{ field }}</div>
-                        {% if field.help_text %} <span class="help-block col-sm-8 col-sm-offset-5">{{ field.help_text }}</span>{% endif %}
-                        {{ field.errors }}
-                    </div>
-                    {% endfor %}
-                <!-- <input type="submit" value=">>" form="email_form" class="flow-btn"/> -->
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <form id="name_form" method="post"
-                  action="{% if passenger %}{% url 'passenger_name' passenger.id %}{% else %}#{% endif %}"
-                  class="form-horizontal">
-                {% csrf_token %}
-                {% for field in name_form %}
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" for="{{ field.name }}">{{ field.label }}</label>
-                        <div class="col-sm-8">{{ field }}</div>
-                        {% if field.help_text %} <span class="help-block col-sm-8 col-sm-offset-4">{{ field.help_text }}</span>{% endif %}
-                        {{ field.errors }}
-                    </div>
-                    {% endfor %}
-                <!-- <input type="submit" value=">>" form="name_form" class="flow-btn"/> -->
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
             <form id="res_form" action="{% if passenger %}{% url 'reservation' passenger.id %}{% else %}#{% endif %}"
                   method="post" class="form-horizontal">
                 {% csrf_token %}

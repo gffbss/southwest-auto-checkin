@@ -3,10 +3,10 @@ from django import forms
 
 class EmailForm(forms.Form):
     email = forms.EmailField()
-    email.widget.attrs['class'] = 'form-control'
+    email.widget.attrs['class'] = 'form-control input-lg'
 
 
-class NameForm(forms.Form):
+class ReservationForm(forms.Form):
     first_name = forms.CharField(max_length=30)
     first_name.widget.attrs['class'] = 'form-control'
     first_name.label = 'First Name'
@@ -15,12 +15,9 @@ class NameForm(forms.Form):
     last_name.widget.attrs['class'] = 'form-control'
     last_name.label = 'Last Name'
 
-
-class ReservationForm(forms.Form):
     confirmation_num = forms.CharField(max_length=13)
     confirmation_num.widget.attrs['class'] = 'form-control'
     confirmation_num.label = 'Confirmation Code'
-
 
     flight_date = forms.DateField()
     flight_date.widget.attrs['class'] = 'form-control'

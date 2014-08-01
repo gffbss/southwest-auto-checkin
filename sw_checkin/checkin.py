@@ -1,5 +1,8 @@
 import requests
 from selenium import webdriver
+from selenium.webdriver.support.select import Select
+
+SOUTHWEST_CHECKIN_URL = 'http://www.southwest.com/flight/retrieveCheckinDoc.html'
 
 
 class ResponseStatus:
@@ -16,10 +19,11 @@ RESPONSE_STATUS_UNKNOWN_FAILURE = ResponseStatus(-100, None)
 
 
 class CheckIn:
-    def __init__(self, confirmation_num, first_name, last_name):
+    def __init__(self, confirmation_num, first_name, last_name, email):
         self.last_name = last_name
         self.first_name = first_name
         self.confirmation_num = confirmation_num
+        self.email = email
 
     def post_to_sw(self):
         payload = {
@@ -27,7 +31,7 @@ class CheckIn:
             'firstName': self.first_name,
             'lastName': self.last_name
         }
-        response = requests.post('http://www.southwest.com/flight/retrieveCheckinDoc.html', data=payload)
+        response = requests.post(SOUTHWEST_CHECKIN_URL, data=payload)
 
         # todo: try post on save and fail if not success or more than 24 hour status
         if response.status_code is 200:
@@ -36,13 +40,14 @@ class CheckIn:
                 browser = webdriver.Firefox()
                 browser.get(str(response.url))
                 browser.find_element_by_id('printDocumentsButton').click()
-                browser.find_element_by_id('optionPrint1').click()  # todo change to deselect all
-                #browser.find_element_by_id('mobileBoardingPassOptionsForm').deselect_all()
-                # select = Select(driver.find_element_by_id('id'))
-                # select.deselect_all()
+                # browser.find_element_by_id('optionPrint1').click()  # todo change to deselect all
+                checkboxes = browser.find_elements_by_xpath("//input[@type='checkbox']")
+                for checkbox in checkboxes:
+                    if checkbox.is_selected():
+                        checkbox.click()
                 browser.find_element_by_id('optionEmail1').click()
                 browser.find_element_by_id('emailAddress').clear()
-                browser.find_element_by_id('emailAddress').send_keys('davidh.1006@gmail.com')
+                browser.find_element_by_id('emailAddress').send_keys(self.email)
                 browser.find_element_by_id('checkin_button').click()
                 browser.close()
                 return RESPONSE_STATUS_SUCCESS.code, response.content
