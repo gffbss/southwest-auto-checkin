@@ -22,17 +22,21 @@
             <form id="res_form" action="{% if passenger %}{% url 'reservation' passenger.id %}{% else %}#{% endif %}"
                   method="post" class="form-horizontal">
                 {% csrf_token %}
+                {% if reservation_form.non_field_errors %}<div class="text-danger col-sm-7 col-sm-offset-5">{{ reservation_form.non_field_errors }}</div>{% endif %}
+                {% for field in reservation_form %}
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="{{ field.name }}">{{ field.label }}</label>
 
-                    {% for field in reservation_form %}
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" for="{{ field.name }}">{{ field.label }}</label>
-                        <div class="col-sm-8">{{ field }}</div>
-                        {% if field.help_text %} <span class="help-block col-sm-8 col-sm-offset-4">{{ field.help_text }}</span>{% endif %}
-                        {{ field.errors }}
-                    </div>
-                    {% endfor %}
-                <!-- <input type="submit" value=">>" form="res_form" class="flow-btn"/> -->
+                    <div class="col-sm-7 {% if field.errors %}has-error{% endif %}" >{{ field }}</div>
+                    {% if field.help_text %} <div
+                        class="help-block col-sm-7 col-sm-offset-5">{{ field.help_text }}</div>{% endif %}
+                    {% if field.errors %}<div class="text-danger col-sm-7 col-sm-offset-5">{{ field.errors }}</div>{% endif %}
+                </div>
+                {% endfor %}
             </form>
+        </div>
+        <div class="col-lg-offset-5 col-lg-7">
+            <input type="submit" value="Create Auto Check-In" form="res_form" class="btn input-lg btn-default btn-block"/>
         </div>
     </div>
 

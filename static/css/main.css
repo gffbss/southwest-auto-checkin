@@ -27,14 +27,28 @@ body {
     text-align: center;
 }
 
+.form-horizontal .control-label {
+    padding-top: 11px;
+}
+
 .flight-input .row + .row {
     margin-top: 30px;
     padding-top: 30px;
     border-top: 1px solid #ddd;
 }
 
+.btn {
+    color: #555;
+    font-size: 18px;
+}
+
 .form-group {
-    margin-top: 20px;
+    margin-top: 15px;
+}
+
+.errorlist {
+    list-style-type: none;
+    padding-left: 0px
 }
 
 input:not(:last-child) {

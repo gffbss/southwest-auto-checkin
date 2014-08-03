@@ -35,7 +35,7 @@ def reservation_post_save(sender, instance, **kwargs):
     )
     checkin_time += timedelta(hours=7)  # Add 7 hours for UTC, start a minute early
     checkin_time -= timedelta(minutes=1)  # Start trying a minute early
-    # tasks.checkin_job.apply_async(args=[instance], eta=checkin_time)
-    tasks.checkin_job(instance)
+    tasks.checkin_job.apply_async(args=[instance], eta=checkin_time)
+    # tasks.checkin_job(instance)
 
 post_save.connect(reservation_post_save, sender=Reservation, dispatch_uid="reservation_post_save")

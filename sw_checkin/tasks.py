@@ -1,5 +1,6 @@
 from datetime import datetime
 from celery.task import task
+from sw_checkin import checkin
 from sw_checkin.checkin import *
 from celery.utils.log import get_task_logger
 
@@ -10,9 +11,8 @@ logger = get_task_logger(__name__)
 def checkin_job(reservation):
     logger.info("Attempting checkin for " + reservation.__str__())
     logger.info('Retry: ' + str(checkin_job.request.retries))
-    checkin = CheckIn(reservation.confirmation_num, reservation.passenger.first_name, reservation.passenger.last_name, reservation.passenger.email)
-    # todo: save only content for success and parse out boarding pass
-    response_code, content = checkin.post_to_sw()
+    response_code, content = checkin.attempt_checkin(reservation.confirmation_num, reservation.passenger.first_name,
+                                                     reservation.passenger.last_name, email=reservation.passenger.email)
     filename = './res' + str(reservation.id) + '_' + str(checkin_job.request.retries) + '_content.html'
     print >> open(filename, 'w+'), content.replace("/assets", "http://southwest.com/assets")
     if response_code == RESPONSE_STATUS_SUCCESS.code:
