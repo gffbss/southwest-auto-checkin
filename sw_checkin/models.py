@@ -34,7 +34,7 @@ def reservation_post_save(sender, instance, **kwargs):
         instance.flight_time
     )
     checkin_time += timedelta(hours=7)  # Add 7 hours for UTC, start a minute early
-    checkin_time -= timedelta(minutes=1)  # Start trying a minute early
+    checkin_time -= timedelta(seconds=30)  # Start trying 30 seconds
     tasks.checkin_job.apply_async(args=[instance], eta=checkin_time)
     # tasks.checkin_job(instance)
 

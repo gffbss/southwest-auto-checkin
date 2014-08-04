@@ -6,10 +6,6 @@ from sw_checkin.forms import EmailForm, ReservationForm
 from sw_checkin.models import Passenger, Reservation
 
 
-def index(request):
-    return HttpResponse('Southwest checkin tool <a href="' + reverse('email') + '"> >>> </a>')
-
-
 def email_view(request):
     if request.method == 'POST':
         email_form = EmailForm(request.POST)
@@ -60,5 +56,7 @@ def reservation_view(request, passenger_id):
 
 def success_view(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id)
-    return HttpResponse(reservation.__str__())
+    return render(request, 'success.html', {
+        'reservation': reservation
+    })
 

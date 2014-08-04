@@ -7,7 +7,7 @@ from celery.utils.log import get_task_logger
 logger = get_task_logger(__name__)
 
 
-@task(ignore_result=False, default_retry_delay=10, max_retries=20)
+@task(ignore_result=False, default_retry_delay=10, max_retries=10)
 def checkin_job(reservation):
     logger.info("Attempting checkin for " + reservation.__str__())
     logger.info('Retry: ' + str(checkin_job.request.retries))

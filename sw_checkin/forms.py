@@ -25,15 +25,16 @@ class ReservationForm(forms.Form):
 
     flight_date = forms.DateField()
     flight_date.widget.attrs['class'] = 'form-control input-lg'
-    flight_date.widget.attrs['placeholder'] = 'mm/dd/yyyy'
-    flight_date.label = 'Date'
+    flight_date.widget.attrs['placeholder'] = 'Ex. 01/23/2014'
+    flight_date.label = 'Flight Date'
     flight_date.input_formats = ['%m/%d/%Y']
 
     flight_time = forms.TimeField()
-    flight_time.widget.attrs['placeholder'] = '13:30'
-    flight_time.help_text = "PST in 24 hr time. Ex. 13:30."
+    flight_time.widget.attrs['placeholder'] = 'Ex. 7:30 pm'
+    flight_time.help_text = "Pacific Standard Time"
     flight_time.widget.attrs['class'] = 'form-control input-lg'
-    flight_time.label = 'Time'
+    flight_time.label = 'Flight Time'
+    flight_time.input_formats = ['%H:%M', '%I:%M%p', '%I:%M %p']
 
     def clean(self):
         cleaned_data = super(ReservationForm, self).clean()
